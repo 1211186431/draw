@@ -86,5 +86,9 @@ public class CustomView extends View {    //笔画列表
         if (memBMP != null)
             canvas.drawBitmap(memBMP, 0, 0, paint);
     }
+
+    public Bitmap getMemBMP(){
+        return memBMP;
+    }
 }
 
