@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -15,6 +16,8 @@ import java.util.List;
 
 public class CustomView extends View {    //笔画列表
     List<Path> listStrokes = new ArrayList<Path>();
+    List<Integer> colors=new ArrayList<Integer>();
+    List<Integer> sizes=new ArrayList<Integer>();
     Path pathStroke;
     Bitmap memBMP;
     Paint memPaint;
@@ -22,8 +25,12 @@ public class CustomView extends View {    //笔画列表
     boolean mBooleanOnTouch = false;   //上一个点
     float oldx;
     float oldy;
+    int size=5;
+    int color=Color.RED;
+
 
     public CustomView(Context context, AttributeSet attrs) {
+
         super(context, attrs);
     }
 
@@ -40,6 +47,8 @@ public class CustomView extends View {    //笔画列表
                 oldy = y;
                 mBooleanOnTouch = true;
                 listStrokes.add(pathStroke);
+                colors.add(color);
+                sizes.add(size);
                 break;
             case MotionEvent.ACTION_MOVE://移动
                 // Add a quadratic bezier from the last point, approaching control point (x1,y1), and ending at (x2,y2).
@@ -69,12 +78,16 @@ public class CustomView extends View {    //笔画列表
             memCanvas.setBitmap(memBMP); //为画布设置位图，图形实际保存在位图中
             memPaint = new Paint(); //画笔
             memPaint.setAntiAlias(true); //抗锯齿
-            memPaint.setColor(Color.RED); //画笔颜色
+            memPaint.setColor(color); //画笔颜色
             memPaint.setStyle(Paint.Style.STROKE); //设置填充类型
-            memPaint.setStrokeWidth(5); //设置画笔宽度
+            memPaint.setStrokeWidth(size); //设置画笔宽度
         }
-        for (Path path : listStrokes) {
-            memCanvas.drawPath(path, memPaint);
+
+        for (int i=0;i<listStrokes.size();i++) {
+            memPaint.setColor(colors.get(i));
+            memPaint.setStrokeWidth(sizes.get(i));
+            Log.v("Tag","123 "+listStrokes.get(i).toString());
+            memCanvas.drawPath(listStrokes.get(i), memPaint);
         }
         invalidate(); //刷新屏幕
     }
@@ -85,6 +98,22 @@ public class CustomView extends View {    //笔画列表
         Paint paint = new Paint();
         if (memBMP != null)
             canvas.drawBitmap(memBMP, 0, 0, paint);
+    }
+
+    public void setColor(int color) {
+        this.color = color;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public void setListStrokes(List<Path> listStrokes) {
+        this.listStrokes = listStrokes;
+    }
+
+    public List<Path> getListStrokes() {
+        return listStrokes;
     }
 
     public Bitmap getMemBMP(){

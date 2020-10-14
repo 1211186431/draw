@@ -11,14 +11,36 @@
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:id="@+id/Custom"/>
-    <Button
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/saveCustom"
-        android:text="save"/>
+        android:orientation="horizontal">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/saveCustom"
+            android:text="save"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/blue"
+            android:text="blue"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/size_up"
+            android:text="up"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/back"
+            android:text="back"/>
+    </LinearLayout>
+
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/mImageView"/>
+        android:id="@+id/mImageView"
+        android:background="#ffffff"/>
 
 </LinearLayout>
