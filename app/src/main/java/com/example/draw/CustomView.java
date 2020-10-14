@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PorterDuff;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -83,10 +84,9 @@ public class CustomView extends View {    //笔画列表
             memPaint.setStrokeWidth(size); //设置画笔宽度
         }
 
-        for (int i=0;i<listStrokes.size();i++) {
+        for (int i=0;i<listStrokes.size();i++) {   //每次都会重新画一次
             memPaint.setColor(colors.get(i));
             memPaint.setStrokeWidth(sizes.get(i));
-            Log.v("Tag","123 "+listStrokes.get(i).toString());
             memCanvas.drawPath(listStrokes.get(i), memPaint);
         }
         invalidate(); //刷新屏幕
@@ -108,8 +108,33 @@ public class CustomView extends View {    //笔画列表
         this.size = size;
     }
 
-    public void setListStrokes(List<Path> listStrokes) {
+    public void backListStrokes(List<Path> listStrokes) {
         this.listStrokes = listStrokes;
+        colors.remove(colors.size()-1);
+        sizes.remove(sizes.size()-1);
+        memCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);//清空画布
+
+    }
+    public void goListStrokes(int color,int size,List<Path> listStrokes){  //恢复原来的颜色大小
+        this.listStrokes = listStrokes;
+        this.colors.add(color);
+        this.sizes.add(size);
+        memCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);//清空画布
+    }
+    public List<Integer> getColors() {
+        return colors;
+    }
+
+    public List<Integer> getSizes() {
+        return sizes;
+    }
+
+    public void setColors(List<Integer> colors) {
+        this.colors = colors;
+    }
+
+    public void setSizes(List<Integer> sizes) {
+        this.sizes = sizes;
     }
 
     public List<Path> getListStrokes() {
